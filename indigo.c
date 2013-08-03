@@ -31,6 +31,8 @@ void httpebble_error(int error_code);
 Window window;
 TextLayer layer_text1;
 TextLayer layer_text2;
+TextLayer layer_text3;
+TextLayer layer_text4;
 char current_page[4] = "0";
 
 void up_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
@@ -120,6 +122,10 @@ void http_success(int32_t request_id, int http_status, DictionaryIterator* recei
   
   Tuple* tuple3 = dict_find(received, 2);
   strcpy(current_page, tuple3->value->cstring);
+  
+  text_layer_set_text(&layer_text3, "+");
+  text_layer_set_text(&layer_text4, "_");
+  
 }
 
 void http_failure(int32_t request_id, int http_status, void* context) {
@@ -169,6 +175,19 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_font(&layer_text2, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
   text_layer_set_text_alignment(&layer_text2, GTextAlignmentCenter);
   layer_add_child(&window.layer, &layer_text2.layer);
+  
+  text_layer_init(&layer_text3, GRect(115, 60, 30, 30));
+  text_layer_set_text_color(&layer_text3, GColorBlack);
+  text_layer_set_background_color(&layer_text3, GColorClear);
+  text_layer_set_font(&layer_text3, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_text_alignment(&layer_text3, GTextAlignmentCenter);
+  layer_add_child(&window.layer, &layer_text3.layer);
+
+  text_layer_init(&layer_text4, GRect(115, 105, 30, 30));
+  text_layer_set_text_color(&layer_text4, GColorBlack);
+  text_layer_set_background_color(&layer_text4, GColorClear);
+  text_layer_set_font(&layer_text4, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_text_alignment(&layer_text4, GTextAlignmentCenter);
 
   window_set_click_config_provider(&window, (ClickConfigProvider) click_config_provider);
 }
